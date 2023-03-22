@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../screens/nft_screen.dart';
+
 class ImageListView extends StatefulWidget {
   const ImageListView(
       {super.key, required this.startIndex, required this.duration});
@@ -42,7 +44,7 @@ class _ImageListViewState extends State<ImageListView> {
       _scrollController.animateTo(
           _currentScrollPosition == _scrollEndPosition ? 0 : _scrollEndPosition,
           duration: Duration(seconds: widget.duration),
-          curve: Curves.decelerate);
+          curve: Curves.linear);
     });
   }
 
@@ -51,7 +53,7 @@ class _ImageListViewState extends State<ImageListView> {
     return Transform.rotate(
       angle: 1.96 * pi,
       child: SizedBox(
-        height: 130,
+        height: 110,
         child: ListView.builder(
           controller: _scrollController,
           itemCount: 10,
@@ -73,11 +75,20 @@ class _ImageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: image,
-      child: Image.asset(
-        image,
-        width: 130,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => NFTScreen(image: image),
+            ));
+      },
+      child: Hero(
+        tag: image,
+        child: Image.asset(
+          image,
+          width: 130,
+        ),
       ),
     );
   }
